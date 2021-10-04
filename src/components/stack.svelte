@@ -5,7 +5,7 @@
 		<div
       class="element"
       transition:fly="{{ y:-50 }}"
-    >{el.id + ': ' + el.value}</div>
+    >{el.value}</div>
   	{/each}  
   </div>
 </div>
@@ -25,7 +25,7 @@
 }
 
 .stack {
-  height: 300px;
+  height: 200px;
   width: 300px;
   display: table-cell;
   vertical-align: bottom;

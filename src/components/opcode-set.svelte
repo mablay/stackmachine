@@ -13,5 +13,6 @@
 <style>
 .opcode-set {
   border: 1px dashed black;
+  padding: 8px;
 }
 </style>

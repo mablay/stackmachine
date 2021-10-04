@@ -1,7 +1,11 @@
 <div>
   <Program bind:prog={prog} />
-  <button on:click={parse}>Parse</button>
-  <button on:click={next} disabled={isAnimating}>Next</button>
+  <button on:click={parse} class="btn btn-warning">Reset</button>
+  <button
+    on:click={next}
+    disabled={isAnimating}
+    class="btn btn-next"
+  >Next</button>
   <div class="row">
     <div class="column">
       <Stack stack="{stack}"></Stack>
@@ -10,6 +14,7 @@
       <Heap heap="{heap}"></Heap>
     </div>
   </div>
+  <br>
   <OpcodeSet on:op={doOp} />
 </div>
 <script>
@@ -20,8 +25,9 @@ import Program from './components/prog.svelte'
 import { instructionSet } from './lib/instruction-set'
 export let stack = []
 export let heap = [10, 20, 3, 45]
-export let prog = '6 2 3 5 + - ='
+export let prog = '4 D 3 5 + - ='
 
+// protect against race conditions during animations
 let isAnimating = false
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
 
@@ -56,6 +62,11 @@ const opMap = {
     stack = stack
     await delay(500)
     await pushData(a - b)
+    // stack = stack
+  },
+  async dup () {
+    const a = peekTosreg()
+    await pushData(a.value)
     // stack = stack
   }
 }
@@ -158,5 +169,26 @@ function pop () {
   content: "";
   display: table;
   clear: both;
+}
+
+.btn {
+  background-color: grey;
+  border-radius: 4px;
+  color: white;
+  border: 0;
+  padding: 8px 12px 8px 12px;
+}
+
+.btn:disabled {
+  background-color: grey;
+  color: lightgray;
+}
+
+.btn-next {
+  background-color: dodgerblue;
+}
+
+.btn-warning {
+  background-color: orange;
 }
 </style>
